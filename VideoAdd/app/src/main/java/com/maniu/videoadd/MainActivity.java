@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 try {
-                    VideoProcess.appendVideo( videoPath1,videoPath, outPath);
+                    VideoProcess videoProcess  = new VideoProcess();
+                    videoProcess.appendVideo( videoPath1,videoPath, outPath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

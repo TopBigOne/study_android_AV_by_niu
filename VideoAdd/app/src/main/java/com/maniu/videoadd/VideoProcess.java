@@ -4,13 +4,27 @@ import android.media.MediaCodec;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaMuxer;
+import android.util.Log;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public class VideoProcess {
-    //视频拼接
-    public static boolean appendVideo(String inputPath1, String inputPath2, String outputPath) throws IOException {
+    private static final String TAG = "VideoProcess : ";
+
+    /**
+     * 视频拼接
+     * @param inputPath1
+     * @param inputPath2
+     * @param outputPath
+     * @return
+     * @throws IOException
+     */
+    public  boolean appendVideo(String inputPath1, String inputPath2, String outputPath) throws IOException {
+        Log.d(TAG, "appendVideo: ");
+        Log.i(TAG, "    inputPath1: "+inputPath1);
+        Log.i(TAG, "    inputPath2: "+inputPath2);
+        Log.i(TAG, "    outputPath: "+outputPath);
         MediaMuxer mediaMuxer = new MediaMuxer(outputPath,MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
         MediaExtractor videoExtractor1 = new MediaExtractor();
         videoExtractor1.setDataSource(inputPath1);
@@ -25,6 +39,7 @@ public class VideoProcess {
         int sourceVideoTrack1 = -1;
         int sourceAudioTrack1 = -1;
         for (int index = 0; index < videoExtractor1.getTrackCount(); index++) {
+
             MediaFormat format = videoExtractor1.getTrackFormat(index);
             String mime = format.getString(MediaFormat.KEY_MIME);
             file1_duration = format.getLong(MediaFormat.KEY_DURATION);
@@ -49,8 +64,10 @@ public class VideoProcess {
             }
         }
 
-        if (mediaMuxer == null)
+        if (mediaMuxer == null){
             return false;
+        }
+
 
         mediaMuxer.start();
         //1.write first video track into muxer.
