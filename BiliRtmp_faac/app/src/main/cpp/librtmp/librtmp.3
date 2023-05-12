@@ -27,10 +27,13 @@ library routines. These routines are found in the -lrtmp library. Many
 other routines are also available, but they are not documented yet.
 
 The basic interaction is as follows. A session handle is created using
+
 .BR RTMP_Alloc ()
 and initialized using
+
 .BR RTMP_Init ().
 All session parameters are provided using
+
 .BR RTMP_SetupURL ().
 The network connection is established using
 .BR RTMP_Connect (),
