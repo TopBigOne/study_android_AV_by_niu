@@ -6,14 +6,17 @@ import android.util.AttributeSet;
 
 /**
  * GLSurfaceView   glthread  线程     gl 传参  gpu       主线程
+ *
+ * 界面显示的view
  */
-public class CameraView extends GLSurfaceView {
+public class GLCameraView extends GLSurfaceView {
+    private static final String TAG = "glCameraView : ";
 
-    public CameraView(Context context) {
+    public GLCameraView(Context context) {
         super(context);
     }
 
-    public CameraView(Context context, AttributeSet attrs) {
+    public GLCameraView(Context context, AttributeSet attrs) {
         super(context, attrs);
         //        2
         setEGLContextClientVersion(2);

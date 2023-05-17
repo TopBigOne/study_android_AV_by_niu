@@ -2,6 +2,7 @@ package com.maniu.openglfilter;
 
 import android.content.Context;
 import android.opengl.GLES20;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,26 +15,11 @@ public class OpenGLUtils {
 
     private static final String TAG = "OpenGLUtils";
 
-    public static final float[] VERTEX = {
-            -1.0f, -1.0f,
-            1.0f, -1.0f,
-            -1.0f, 1.0f,
-            1.0f, 1.0f
-    };
+    public static final float[] VERTEX = {-1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 1.0f};
 
-    public static final float[] TEXURE = {
-            0.0f, 1.0f,
-            1.0f, 1.0f,
-            0.0f, 0.0f,
-            1.0f, 0.0f
-    };
+    public static final float[] TEXURE = {0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f};
 
-    public static final float[] TEXTURE_NO_ROTATION = {
-            0.0f, 1.0f,
-            1.0f, 1.0f,
-            0.0f, 0.0f,
-            1.0f, 0.0f
-    };
+    public static final float[] TEXTURE_NO_ROTATION = {0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f};
 
     public static void glGenTextures(int[] textures) {
         GLES20.glGenTextures(textures.length, textures, 0);
@@ -71,15 +57,17 @@ public class OpenGLUtils {
             //            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T,
             //                    GLES20.GL_CLAMP_TO_EDGE);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, 0);
+
+
         }
     }
 
 
     public static String readRawTextFile(Context context, int rawId) {
-        InputStream is = context.getResources().openRawResource(rawId);
+        InputStream    is = context.getResources().openRawResource(rawId);
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        String line;
-        StringBuilder sb = new StringBuilder();
+        String         line;
+        StringBuilder  sb = new StringBuilder();
         try {
             while ((line = br.readLine()) != null) {
                 sb.append(line);
@@ -98,7 +86,9 @@ public class OpenGLUtils {
 
 
     public static int loadProgram(String vSource, String fSource) {
-        /**
+        Log.d(TAG, "loadProgram: vSource : " + vSource);
+        Log.d(TAG, "loadProgram: fSource : " + fSource);
+        /*
          * 顶点着色器
          */
         int vShader = GLES20.glCreateShader(GLES20.GL_VERTEX_SHADER);
@@ -112,11 +102,10 @@ public class OpenGLUtils {
         GLES20.glGetShaderiv(vShader, GLES20.GL_COMPILE_STATUS, status, 0);
         if (status[0] != GLES20.GL_TRUE) {
             //失败
-            throw new IllegalStateException("load vertex shader:" + GLES20.glGetShaderInfoLog
-                    (vShader));
+            throw new IllegalStateException("load vertex shader:" + GLES20.glGetShaderInfoLog(vShader));
         }
 
-        /**
+        /*
          *  片元着色器
          *  流程和上面一样
          */
@@ -130,8 +119,7 @@ public class OpenGLUtils {
         GLES20.glGetShaderiv(fShader, GLES20.GL_COMPILE_STATUS, status, 0);
         if (status[0] != GLES20.GL_TRUE) {
             //失败
-            throw new IllegalStateException("load fragment shader:" + GLES20.glGetShaderInfoLog
-                    (vShader));
+            throw new IllegalStateException("load fragment shader:" + GLES20.glGetShaderInfoLog(vShader));
         }
 
 
@@ -156,15 +144,59 @@ public class OpenGLUtils {
         return program;
     }
 
+    public static int loadProgram2(String vertexShaderCode, String fragmentShaderCode) {
+        // step 1:
+        int vertexShader = GLES20.glCreateShader(GLES20.GL_VERTEX_SHADER);
+        // step 2:
+        GLES20.glShaderSource(vertexShader, vertexShaderCode);
+        // step 3:编译
+        GLES20.glCompileShader(vertexShader);
+        int[] status = new int[1];
+        // step  3: 检查配置是否成功
+        GLES20.glGetShaderiv(vertexShader, GLES20.GL_COMPILE_STATUS, status, 0);
+        if (status[0] != GLES20.GL_TRUE) {
+            throw new IllegalStateException("load vertex shader :" + GLES20.glGetShaderInfoLog(vertexShader));
+        }
+
+        // step 1:
+        int fragmentShader = GLES20.glCreateShader(GLES20.GL_FRAGMENT_SHADER);
+        // step 2:
+        GLES20.glShaderSource(fragmentShader, fragmentShaderCode);
+        // step 3: compile.
+        GLES20.glCompileShader(fragmentShader);
+        // step 4: check status.
+        GLES20.glGetShaderiv(fragmentShader, GLES20.GL_COMPILE_STATUS, status, 0);
+        if (status[0] != GLES20.GL_TRUE) {
+            throw new IllegalStateException("load vertex shader :" + GLES20.glGetShaderInfoLog(fragmentShader));
+        }
+
+        int program = GLES20.glCreateProgram();
+
+        // binder vertex and fragment.
+        GLES20.glAttachShader(program, vertexShader);
+        GLES20.glAttachShader(program, fragmentShader);
+        // link to program
+        GLES20.glLinkProgram(program);
+        // check status
+        GLES20.glGetProgramiv(program, GLES20.GL_LINK_STATUS, status, 0);
+        if (status[0] != GLES20.GL_TRUE) {
+            throw new IllegalStateException("link program:" + GLES20.glGetProgramInfoLog(program));
+        }
+        GLES20.glDeleteShader(vertexShader);
+        GLES20.glDeleteShader(fragmentShader);
+        return program;
+
+    }
+
 
     public static void copyAssets2SdCard(Context context, String src, String dst) {
         try {
             File file = new File(dst);
             if (!file.exists()) {
-                InputStream is = context.getAssets().open(src);
-                FileOutputStream fos = new FileOutputStream(file);
-                int len;
-                byte[] buffer = new byte[2048];
+                InputStream      is     = context.getAssets().open(src);
+                FileOutputStream fos    = new FileOutputStream(file);
+                int              len;
+                byte[]           buffer = new byte[2048];
                 while ((len = is.read(buffer)) != -1) {
                     fos.write(buffer, 0, len);
                 }

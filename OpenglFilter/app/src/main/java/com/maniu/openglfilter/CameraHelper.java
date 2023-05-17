@@ -11,14 +11,20 @@ import androidx.lifecycle.LifecycleOwner;
 public class CameraHelper {
 
     private HandlerThread handlerThread;
-    private CameraX.LensFacing currentFacing = CameraX.LensFacing.BACK;
-    private Preview.OnPreviewOutputUpdateListener listener;
+    private       CameraX.LensFacing                    currentFacing = CameraX.LensFacing.BACK;
+    private final Preview.OnPreviewOutputUpdateListener listener;
 
 
+    /**
+     *
+     * @param lifecycleOwner
+     * @param listener  摄像头数据输出 ：PreviewOutput
+     */
     public CameraHelper(LifecycleOwner lifecycleOwner, Preview.OnPreviewOutputUpdateListener listener) {
         this.listener = listener;
         handlerThread = new HandlerThread("Analyze-thread");
         handlerThread.start();
+
         CameraX.bindToLifecycle(lifecycleOwner, getPreView());
 
 //        直播camerax  打开的
