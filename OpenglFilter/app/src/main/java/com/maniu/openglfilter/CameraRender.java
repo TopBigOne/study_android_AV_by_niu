@@ -7,6 +7,8 @@ import android.util.Log;
 import androidx.camera.core.Preview;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.maniu.openglfilter.filter.ScreenFilter2;
+
 import java.util.Arrays;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -22,7 +24,8 @@ public class CameraRender implements GLSurfaceView.Renderer {
     private       SurfaceTexture mCameraSurfaceTexture;
 
     //  int
-    private ScreenFilter screenFilter;
+//    private ScreenFilter  screenFilter;
+    private ScreenFilter2 screenFilter;
 
     /**
      *
@@ -65,7 +68,7 @@ public class CameraRender implements GLSurfaceView.Renderer {
         mCameraSurfaceTexture.attachToGLContext(textures[0]);
         // 监听摄像头数据回调，
         mCameraSurfaceTexture.setOnFrameAvailableListener(frameAvailableListener);
-        screenFilter = new ScreenFilter(glCameraView.getContext());
+        screenFilter = new ScreenFilter2(glCameraView.getContext());
     }
 
     @Override
@@ -91,7 +94,7 @@ public class CameraRender implements GLSurfaceView.Renderer {
         screenFilter.setTransformMatrix(mtx);
         Log.d(TAG, "onDrawFrame: mtx : "+ Arrays.toString(mtx));
         //int   数据   byte[]
-        screenFilter.startDraw2(textures[0]);
+        screenFilter.startDraw(textures[0]);
     }
 
 

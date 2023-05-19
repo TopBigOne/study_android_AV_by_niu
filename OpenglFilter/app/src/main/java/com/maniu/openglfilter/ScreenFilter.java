@@ -21,21 +21,20 @@ public class ScreenFilter {
 
     //    顶点着色器
     //    片元着色器
-    private int program;
+    private final int program;
     //句柄  gpu中  vPosition
-    private int vPosition;
+    private final int vPosition;
     FloatBuffer textureBuffer; // 纹理坐标
-    private int     vCoord;
-    private int     vTexture;
-    private int     vMatrix;
-    private int     mWidth;
-    private int     mHeight;
-    private float[] mtx;
+    private final int     vCoord;
+    private final int     vTexture;
+    private final int     vMatrix;
+    private       int     mWidth;
+    private       int     mHeight;
+    private       float[] mtx;
     //gpu顶点缓冲区
     FloatBuffer vertexBuffer; //顶点坐标缓存区
 
-    float[] VERTEX = {
-            -1.0f, -1.0f,
+    float[] VERTEX = {-1.0f, -1.0f,
             1.0f, -1.0f,
             -1.0f, 1.0f,
             1.0f, 1.0f};
@@ -43,11 +42,7 @@ public class ScreenFilter {
     /**
      * 纹理 坐标系
      */
-    float[] TEXTURE = {
-            0.0f, 0.0f,
-            1.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 1.0f};
+    float[] TEXTURE = {0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f};
 
     public ScreenFilter(Context context) {
         Log.d(TAG, "ScreenFilter: ");
@@ -90,6 +85,7 @@ public class ScreenFilter {
 
     /**
      * 摄像头数据  渲染   摄像  开始渲染
+     *
      * @param texture
      */
     public void startDraw(int texture) {
@@ -98,7 +94,6 @@ public class ScreenFilter {
         GLES20.glViewport(0, 0, mWidth, mHeight);
         // 使用程序
         GLES20.glUseProgram(program);
-
 
 
         // 从索引位0的地方读
@@ -115,16 +110,10 @@ public class ScreenFilter {
         GLES20.glEnableVertexAttribArray(vPosition);
 
 
-
-
-
         textureBuffer.position(0);
         GLES20.glVertexAttribPointer(vCoord, 2, GLES20.GL_FLOAT, false, 0, textureBuffer);
         //CPU传数据到GPU，默认情况下着色器无法读取到这个数据。 需要我们启用一下才可以读取
         GLES20.glEnableVertexAttribArray(vCoord);
-
-
-
 
 
         //  形状就确定了
@@ -142,37 +131,31 @@ public class ScreenFilter {
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
     }
 
-    public  void startDraw2(int textureIndex){
-        GLES20.glViewport(0,0,mWidth,mHeight);
+    public void startDraw2(int textureIndex) {
+        GLES20.glViewport(0, 0, mWidth, mHeight);
         GLES20.glUseProgram(program);
 
 
         // process vertex
         vertexBuffer.position(0);
-        GLES20.glVertexAttribPointer(vPosition,2,GL_FLOAT,false,0,vertexBuffer);
+        GLES20.glVertexAttribPointer(vPosition, 2, GL_FLOAT, false, 0, vertexBuffer);
         GLES20.glEnableVertexAttribArray(vPosition);
 
         // process texture
         textureBuffer.position(0);
-        GLES20.glVertexAttribPointer(vCoord,2, GL_FLOAT,false,0,textureBuffer);
+        GLES20.glVertexAttribPointer(vCoord, 2, GL_FLOAT, false, 0, textureBuffer);
         GLES20.glEnableVertexAttribArray(vCoord);
 
         // 激活图层 0
         GLES20.glActiveTexture(GL_TEXTURE0);
 
         // 生成一个采样
-        GLES20.glBindTexture(GL_TEXTURE_2D,textureIndex);
-        GLES20.glUniform1i(vTexture,0);
+        GLES20.glBindTexture(GL_TEXTURE_2D, textureIndex);
+        GLES20.glUniform1i(vTexture, 0);
 
-        GLES20.glUniformMatrix4fv(vMatrix,1,false,mtx,0);
+        GLES20.glUniformMatrix4fv(vMatrix, 1, false, mtx, 0);
         // 通知画画
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN,0,4);
-
-
-
-
-
-
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, 4);
 
     }
 
