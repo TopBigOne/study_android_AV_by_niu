@@ -60,7 +60,7 @@ public class EGLEnv {
         if (mEglContext == EGL14.EGL_NO_CONTEXT) {
             throw new RuntimeException("EGL error " + EGL14.eglGetError());
         }
-        /**
+        /*
          * 创建EGLSurface
          */
         int[] surface_attrib_list = {EGL14.EGL_NONE};
@@ -74,7 +74,7 @@ public class EGLEnv {
         if (mEglSurface == null) {
             throw new RuntimeException("EGL error " + EGL14.eglGetError());
         }
-        /**
+        /*
          * 绑定当前线程的显示器display mEglDisplay  虚拟 物理设备
          */
         if (!EGL14.eglMakeCurrent(mEglDisplay, mEglSurface, mEglSurface, mEglContext)) {

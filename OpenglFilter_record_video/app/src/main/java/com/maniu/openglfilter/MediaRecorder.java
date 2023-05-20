@@ -84,6 +84,7 @@ public class MediaRecorder {
 
             mSurface = mMediaCodec.createInputSurface();
 
+
             // 视频  编码一个可以播放的视频
             //混合器 (复用器) 将编码的h.264封装为mp4
             mMuxer = new MediaMuxer(mPath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);

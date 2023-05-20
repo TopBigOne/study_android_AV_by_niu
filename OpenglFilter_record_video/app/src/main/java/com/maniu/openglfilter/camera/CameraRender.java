@@ -19,7 +19,8 @@ import java.io.File;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class CameraRender implements GLSurfaceView.Renderer, Preview.OnPreviewOutputUpdateListener, SurfaceTexture.OnFrameAvailableListener {
+public class CameraRender implements GLSurfaceView.Renderer,
+        Preview.OnPreviewOutputUpdateListener, SurfaceTexture.OnFrameAvailableListener {
     private static final String TAG = "CameraRender : ";
     private CameraHelper cameraHelper;
     private CameraView cameraView;
@@ -89,6 +90,7 @@ public class CameraRender implements GLSurfaceView.Renderer, Preview.OnPreviewOu
 //
     @Override
     public void onUpdated(Preview.PreviewOutput output) {
+        Log.i(TAG, "onUpdated: ");
 //        摄像头预览到的数据 在这里
         mCameraTexure=output.getSurfaceTexture();
     }
