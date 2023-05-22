@@ -22,12 +22,20 @@ public class ImageFilter {
     /**
      * opengl坐标系
      */
-    static final float[] COORD_REVERSE = {-1.0f, 1.0f, 1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f,};
+    static final float[] COORD_REVERSE = {
+            -1.0f, 1.0f,
+            1.0f, 1.0f,
+            -1.0f, -1.0f,
+            1.0f, -1.0f,};
 
     /**
      * 纹理坐标系
      */
-    static final float[] TEXTURE_COORD_REVERSE = {1.0f, 0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f};
+    static final float[] TEXTURE_COORD_REVERSE = {
+            1.0f, 0f,
+            0.0f, 0.0f,
+            1.0f, 1.0f,
+            0.0f, 1.0f};
 
     private FloatBuffer mPositionBuffer;
     private FloatBuffer mTextureCubeBuffer;
@@ -76,6 +84,7 @@ public class ImageFilter {
         mProgramId = OpenGLUtils.loadProgram(mVertexShaderStr, mFragmentShaderStr);
 
         mPosition = GLES20.glGetAttribLocation(mProgramId, "position");
+
         mInputTexture = GLES20.glGetUniformLocation(mProgramId, "inputImageTexture");
         mInputTextureCoordinate = GLES20.glGetAttribLocation(mProgramId, "inputTextureCoordinate");
     }
