@@ -15,7 +15,8 @@ import javax.microedition.khronos.opengles.GL10;
 public class MainActivity extends AppCompatActivity {
 
     private GLSurfaceView mSurfaceView;
-    private int mTextureId =-1;
+    private int           mTextureId = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,22 +36,20 @@ public class MainActivity extends AppCompatActivity {
         mSurfaceView.setRenderer(new GLSurfaceView.Renderer() {
             @Override
             public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-
-                mTextureId =filter.init(bitmap);
-
+                mTextureId = filter.init(bitmap);
             }
+
             @Override
             public void onSurfaceChanged(GL10 gl, int width, int height) {
                 GLES20.glViewport(0, 0, width, height);
             }
+
             @Override
             public void onDrawFrame(GL10 gl) {
                 filter.drawFrame(mTextureId);
             }
         });
     }
-
-
 
 
 }
