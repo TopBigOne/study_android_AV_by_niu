@@ -1,4 +1,4 @@
-package com.maniu.openglfilter;
+package com.maniu.openglfilter.filter;
 
 import android.content.Context;
 import android.opengl.GLES20;
@@ -9,6 +9,8 @@ import java.nio.FloatBuffer;
 
 import static android.opengl.GLES20.GL_FLOAT;
 import static android.opengl.GLES20.GL_TEXTURE0;
+
+import com.maniu.openglfilter.OpenGLUtils;
 
 public class AbstractFilter {
     //    顶点着色器
@@ -102,7 +104,7 @@ public class AbstractFilter {
 //gpu    获取读取    //使用第几个图层
         GLES20.glActiveTexture(GL_TEXTURE0);
 
-//生成一个采样
+        // 生成一个采样
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture);
         GLES20.glUniform1i(vTexture, 0);
 //        模板方法

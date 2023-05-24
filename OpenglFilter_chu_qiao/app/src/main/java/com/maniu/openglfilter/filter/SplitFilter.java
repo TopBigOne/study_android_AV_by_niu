@@ -1,6 +1,8 @@
-package com.maniu.openglfilter;
+package com.maniu.openglfilter.filter;
 
 import android.content.Context;
+
+import com.maniu.openglfilter.R;
 
 public class SplitFilter extends AbstractFboFilter {
     public SplitFilter(Context context) {

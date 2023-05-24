@@ -1,4 +1,4 @@
-package com.maniu.openglfilter;
+package com.maniu.openglfilter.camera;
 
 import android.os.HandlerThread;
 import android.util.Size;
@@ -8,6 +8,9 @@ import androidx.camera.core.Preview;
 import androidx.camera.core.PreviewConfig;
 import androidx.lifecycle.LifecycleOwner;
 
+/**
+ *  直播camerax  打开相机
+ */
 public class CameraHelper {
 
     private HandlerThread handlerThread;
@@ -21,7 +24,6 @@ public class CameraHelper {
         handlerThread.start();
         CameraX.bindToLifecycle(lifecycleOwner, getPreView());
 
-//        直播camerax  打开的
     }
     private Preview getPreView() {
         // 分辨率并不是最终的分辨率，CameraX会自动根据设备的支持情况，结合你的参数，设置一个最为接近的分辨率
@@ -29,8 +31,10 @@ public class CameraHelper {
                 .setTargetResolution(new Size(640, 480))
                 .setLensFacing(currentFacing) //前置或者后置摄像头
                 .build();
-//        要不  得到他的数据
 
+
+
+        // UseCase
         Preview preview = new Preview(previewConfig);
         preview.setOnPreviewOutputUpdateListener(listener);
         return preview;

@@ -1,7 +1,6 @@
 package com.maniu.openglfilter;
 
 import android.content.Context;
-import android.media.projection.MediaProjection;
 import android.opengl.EGL14;
 import android.opengl.EGLConfig;
 import android.opengl.EGLContext;
@@ -9,6 +8,8 @@ import android.opengl.EGLDisplay;
 import android.opengl.EGLExt;
 import android.opengl.EGLSurface;
 import android.view.Surface;
+
+import com.maniu.openglfilter.filter.ScreenFilter;
 
 public class EGLEnv {
     private EGLDisplay mEglDisplay;

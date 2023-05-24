@@ -1,11 +1,18 @@
-package com.maniu.openglfilter;
+package com.maniu.openglfilter.filter;
 
 import android.content.Context;
 
+import com.maniu.openglfilter.R;
+
+/**
+ * 输出到屏幕
+ */
 public class RecordFilter extends AbstractFilter{
-//    输出屏幕
+
     public RecordFilter(Context context){
         super(context, R.raw.base_vert, R.raw.base_frag);
     }
+
+
 
 }
