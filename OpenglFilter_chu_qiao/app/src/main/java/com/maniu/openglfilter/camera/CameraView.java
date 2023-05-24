@@ -4,13 +4,13 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
-import com.maniu.openglfilter.render.NormalRender;
+import com.maniu.openglfilter.render.DivideRender;
 
 /**
  * GLSurfaceView   glthread  线程     gl 传参  gpu       主线程
  */
 public class CameraView extends GLSurfaceView {
-    private NormalRender renderer;
+    private DivideRender renderer;
 
     public CameraView(Context context) {
         super(context);
@@ -20,7 +20,7 @@ public class CameraView extends GLSurfaceView {
         super(context, attrs);
         //        2
         setEGLContextClientVersion(2);
-        renderer = new NormalRender(this);
+        renderer = new DivideRender(this);
         //        opengl  有讲究
         setRenderer(renderer.getRenderer());
         /*

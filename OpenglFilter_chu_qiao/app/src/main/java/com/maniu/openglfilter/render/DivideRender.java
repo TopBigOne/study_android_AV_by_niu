@@ -18,8 +18,11 @@ import com.maniu.openglfilter.filter.SplitFilter;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class NormalRender {
-    private static final String TAG = "CameraRender : ";
+/**
+ * 分屏渲染
+ */
+public class DivideRender {
+    private static final String TAG = "DivideRender : ";
 
     private final CameraView     cameraView;
     private       SurfaceTexture surfaceTexture;
@@ -31,7 +34,7 @@ public class NormalRender {
     private int[] textures;
     float[] mtx = new float[16];
 
-    public NormalRender(CameraView cameraView) {
+    public DivideRender(CameraView cameraView) {
         this.cameraView = cameraView;
         LifecycleOwner lifecycleOwner = (LifecycleOwner) cameraView.getContext();
         //        打开摄像头
@@ -43,6 +46,9 @@ public class NormalRender {
     }
 
 
+    /**
+     * 渲染回调
+     */
     public GLSurfaceView.Renderer renderer = new GLSurfaceView.Renderer() {
         @Override
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -53,8 +59,10 @@ public class NormalRender {
             surfaceTexture.attachToGLContext(textures[0]);
             //监听摄像头数据回调，
             surfaceTexture.setOnFrameAvailableListener(frameAvailableListener);
-            cameraFilter = new CameraFilter(cameraView.getContext());
+
             Context context = cameraView.getContext();
+
+            cameraFilter = new CameraFilter(context);
             recordFilter = new RecordFilter(context);
             splitFilter = new SplitFilter(context);
 
@@ -77,6 +85,7 @@ public class NormalRender {
             surfaceTexture.updateTexImage();
             //        不是数据
             surfaceTexture.getTransformMatrix(mtx);
+
             cameraFilter.setTransformMatrix(mtx);
             //int   数据   byte[]
 
@@ -88,20 +97,26 @@ public class NormalRender {
             id = splitFilter.onDraw(id);
             //        是一样的
             id = recordFilter.onDraw(id);
-
         }
     };
 
 
+    /**
+     * frame 可用回调
+     */
     private final SurfaceTexture.OnFrameAvailableListener frameAvailableListener = new SurfaceTexture.OnFrameAvailableListener() {
         //当有数据 过来的时候
         @Override
         public void onFrameAvailable(SurfaceTexture surfaceTexture) {
-            //一帧 一帧回调时
+            // 一帧 一帧回调时
             cameraView.requestRender();
         }
     };
 
+
+    /**
+     * camera 预览输出回调
+     */
     private Preview.OnPreviewOutputUpdateListener previewOutputUpdateListener = new Preview.OnPreviewOutputUpdateListener() {
         //
         @Override

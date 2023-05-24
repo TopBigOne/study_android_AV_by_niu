@@ -93,7 +93,7 @@ public class OpenGLUtils {
 
 
     public static int loadProgram(String vSource, String fSource) {
-        /**
+        /*
          * 顶点着色器
          */
         int vShader = GLES20.glCreateShader(GLES20.GL_VERTEX_SHADER);
@@ -111,7 +111,7 @@ public class OpenGLUtils {
                     (vShader));
         }
 
-        /**
+        /*
          *  片元着色器
          *  流程和上面一样
          */
@@ -125,8 +125,7 @@ public class OpenGLUtils {
         GLES20.glGetShaderiv(fShader, GLES20.GL_COMPILE_STATUS, status, 0);
         if (status[0] != GLES20.GL_TRUE) {
             //失败
-            throw new IllegalStateException("load fragment shader:" + GLES20.glGetShaderInfoLog
-                    (vShader));
+            throw new IllegalStateException("load fragment shader:" + GLES20.glGetShaderInfoLog(vShader));
         }
 
 

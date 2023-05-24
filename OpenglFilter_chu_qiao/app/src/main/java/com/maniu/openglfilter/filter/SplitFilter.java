@@ -6,7 +6,7 @@ import com.maniu.openglfilter.R;
 
 public class SplitFilter extends AbstractFboFilter {
     public SplitFilter(Context context) {
-        super(context, R.raw.base_vert, R.raw.split3_screen);
+        super(context, R.raw.base_vert, R.raw.split4_screen);
     }
 
     @Override
